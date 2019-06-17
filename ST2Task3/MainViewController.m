@@ -44,7 +44,9 @@ static NSString* cellIdentifier = @"Cell";
                                               [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
                                               [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
                                               [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-                                              ]];    
+                                              ]];
+    
+    self.tableView.rowHeight = 200;
 }
 
 - (void)viewDidLoad {
@@ -82,6 +84,7 @@ static NSString* cellIdentifier = @"Cell";
     
     if ([self.cache objectForKey:item.nameString]) {
         cell.imgView.image = [self.cache objectForKey:item.nameString];
+        cell.infoLabel.text = item.urlString;
     } else {
     
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
