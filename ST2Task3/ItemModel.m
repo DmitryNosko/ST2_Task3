@@ -26,7 +26,7 @@ static NSString* imageStr10 = @"http://pikchyriki.net/avatar/krutye/100/38.jpg";
     self = [super init];
     if (self) {
         _nameString = name;
-        _imageString = image;
+        _urlString = image;
     }
     return self;
 }

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface ItemModel : NSObject
-@property (strong, nonatomic) NSString* imageString;
+@property (strong, nonatomic) NSString* urlString;
 @property (strong, nonatomic) NSString* nameString;
 
 - (NSArray<ItemModel*>*) makeItems;

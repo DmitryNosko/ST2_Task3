@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString* const MainViewControllerImageWasLoadNotification;
+
 @interface MainViewController : UIViewController
 
 @end

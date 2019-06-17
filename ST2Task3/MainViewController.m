@@ -13,16 +13,18 @@
 
 @interface MainViewController () <UITableViewDataSource, UITableViewDelegate, CustomTableViewCellListener>
 
-@property (weak, nonatomic) UITableView* tableView;
-@property (weak, nonatomic) UIImage* image;
+@property (strong, nonatomic) UITableView* tableView;
+@property (strong, nonatomic) UIImage* image;
 @property (strong, nonatomic) NSArray<ItemModel*>* itemsArray;
 @property (strong, nonatomic) NSCache* cache;
 
 @end
 
+NSString* const MainViewControllerImageWasLoadNotification = @"MainViewControllerImageWasLoadNotification";
 static NSString* cellIdentifier = @"Cell";
 
 @implementation MainViewController
+
 
 - (void) loadView {
     [super loadView];
@@ -31,6 +33,7 @@ static NSString* cellIdentifier = @"Cell";
     frame.origin = CGPointZero;
     UITableView* tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     [self.view addSubview:tableView];
+    
     self.tableView = tableView;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -41,9 +44,7 @@ static NSString* cellIdentifier = @"Cell";
                                               [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
                                               [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
                                               [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-                                              ]];
-    
-    
+                                              ]];    
 }
 
 - (void)viewDidLoad {
@@ -77,7 +78,7 @@ static NSString* cellIdentifier = @"Cell";
     }
     
     ItemModel* item = self.itemsArray[indexPath.row];
-    NSURL* url = [NSURL URLWithString:item.imageString];
+    NSURL* url = [NSURL URLWithString:item.urlString];
     
     if ([self.cache objectForKey:item.nameString]) {
         cell.imgView.image = [self.cache objectForKey:item.nameString];
@@ -85,10 +86,17 @@ static NSString* cellIdentifier = @"Cell";
     
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSData* data = [NSData dataWithContentsOfURL:url];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
-                cell.imgView.image = [UIImage imageWithData:data];
-                [cell setInfo:item.imageString];
+                UIImage* image = [UIImage imageWithData:data];
+                cell.imgView.image = image;
+                [cell setInfo:item.urlString];
                 [self.cache setObject:[UIImage imageWithData:data] forKey:item.nameString];
+                
+                NSDictionary* dictionary = [NSDictionary dictionaryWithObject:image forKey:item.urlString];
+                [[NSNotificationCenter defaultCenter] postNotificationName:MainViewControllerImageWasLoadNotification
+                                                                    object:nil
+                                                                  userInfo:dictionary];
             });
         });
     }
@@ -96,24 +104,34 @@ static NSString* cellIdentifier = @"Cell";
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 300;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
-}
-
 #pragma mark - DidTapOnImage
 
-- (void) didTapOnImage:(UIImage *)image {
+- (void) didTapOnImage:(UIImageView*) imageView {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)imageView.superview];
     DetailsViewController* dVc = [[DetailsViewController alloc] init];
-    dVc.image = image;
+    dVc.image = imageView.image;
+    dVc.imageUrl = [self.itemsArray objectAtIndex:indexPath.row].urlString;
+        
     [self.navigationController pushViewController:dVc animated:YES];
 }
 
-#pragma mark - Notification
-
-
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

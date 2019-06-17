@@ -10,4 +10,5 @@
 
 @interface DetailsViewController : UIViewController
 @property (strong, nonatomic) UIImage* image;
+@property (strong, nonatomic) NSString* imageUrl;
 @end
