@@ -22,7 +22,6 @@
                                              selector:@selector(imageWasLoadNotification:)
                                                  name:MainViewControllerImageWasLoadNotification
                                                object:nil];
-    
     [self setUp];
     [self setImageView:self.image];
 }

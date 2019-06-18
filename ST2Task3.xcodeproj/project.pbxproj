@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3244862122B8C90F003C669D /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3244862022B8C90F003C669D /* CustomCell.m */; };
 		324BF99622B4EB5E00D0E0DA /* ItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 324BF99522B4EB5E00D0E0DA /* ItemModel.m */; };
 		3293B85D22B3F1D600D64C9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293B85C22B3F1D600D64C9C /* AppDelegate.m */; };
 		3293B86322B3F1D600D64C9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3293B86122B3F1D600D64C9C /* Main.storyboard */; };
@@ -14,11 +15,12 @@
 		3293B86822B3F1DB00D64C9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3293B86622B3F1DB00D64C9C /* LaunchScreen.storyboard */; };
 		3293B86B22B3F1DB00D64C9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293B86A22B3F1DB00D64C9C /* main.m */; };
 		3293B87322B3F21D00D64C9C /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293B87222B3F21D00D64C9C /* MainViewController.m */; };
-		3293B87922B4371500D64C9C /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293B87722B4371500D64C9C /* CustomTableViewCell.m */; };
 		32FB812F22B5633D001DC767 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FB812E22B5633D001DC767 /* DetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3244861F22B8C90F003C669D /* CustomCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		3244862022B8C90F003C669D /* CustomCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		324BF99422B4EB5E00D0E0DA /* ItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemModel.h; sourceTree = "<group>"; };
 		324BF99522B4EB5E00D0E0DA /* ItemModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemModel.m; sourceTree = "<group>"; };
 		3293B85822B3F1D600D64C9C /* ST2Task3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ST2Task3.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,8 +33,6 @@
 		3293B86A22B3F1DB00D64C9C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3293B87122B3F21D00D64C9C /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		3293B87222B3F21D00D64C9C /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		3293B87722B4371500D64C9C /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomTableViewCell.m; path = ../../ContactsBooks/ContactsBooks/CustomTableViewCell.m; sourceTree = "<group>"; };
-		3293B87822B4371500D64C9C /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomTableViewCell.h; path = ../../ContactsBooks/ContactsBooks/CustomTableViewCell.h; sourceTree = "<group>"; };
 		32FB812D22B5633C001DC767 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		32FB812E22B5633D001DC767 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -73,8 +73,8 @@
 				3293B87222B3F21D00D64C9C /* MainViewController.m */,
 				32FB812D22B5633C001DC767 /* DetailsViewController.h */,
 				32FB812E22B5633D001DC767 /* DetailsViewController.m */,
-				3293B87822B4371500D64C9C /* CustomTableViewCell.h */,
-				3293B87722B4371500D64C9C /* CustomTableViewCell.m */,
+				3244861F22B8C90F003C669D /* CustomCell.h */,
+				3244862022B8C90F003C669D /* CustomCell.m */,
 				324BF99422B4EB5E00D0E0DA /* ItemModel.h */,
 				324BF99522B4EB5E00D0E0DA /* ItemModel.m */,
 				3293B86122B3F1D600D64C9C /* Main.storyboard */,
@@ -160,7 +160,7 @@
 				324BF99622B4EB5E00D0E0DA /* ItemModel.m in Sources */,
 				3293B87322B3F21D00D64C9C /* MainViewController.m in Sources */,
 				32FB812F22B5633D001DC767 /* DetailsViewController.m in Sources */,
-				3293B87922B4371500D64C9C /* CustomTableViewCell.m in Sources */,
+				3244862122B8C90F003C669D /* CustomCell.m in Sources */,
 				3293B85D22B3F1D600D64C9C /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
