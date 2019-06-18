@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface ItemModel : NSObject
+
 @property (strong, nonatomic) NSString* urlString;
-@property (strong, nonatomic) NSString* nameString;
+@property (strong, nonatomic) NSString* currentInfo;
+@property (strong, nonatomic) UIImage* image;
 
 - (NSArray<ItemModel*>*) makeItems;
-- (instancetype)initWith:(NSString*)name imageString:(NSString*) image;
+- (instancetype)initWith:(NSString*) image;
 @end

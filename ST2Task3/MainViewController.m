@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSArray<ItemModel*>* itemsArray;
 @property (strong, nonatomic) NSCache* cache;
 
+
 @end
 
 NSString* const MainViewControllerImageWasLoadNotification = @"MainViewControllerImageWasLoadNotification";
@@ -36,10 +37,10 @@ static NSString* cellIdentifier = @"Cell";
     self.title = @"Images library";
     [self.tableView registerClass:[CustomCell class] forCellReuseIdentifier:cellIdentifier];
     
-    ItemModel* model = [[ItemModel alloc] initWith:@"" imageString:@""];
+    ItemModel* model = [[ItemModel alloc] initWith:@""];
     self.itemsArray = [model makeItems];
     
-    NSCache<id, id>* cache = [[NSCache alloc] init];
+    NSCache* cache = [[NSCache alloc] init];
     self.cache = cache;
 }
 
@@ -60,40 +61,39 @@ static NSString* cellIdentifier = @"Cell";
     if (!cell) {
         cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    [cell.infoLabel reloadInputViews];
-    [cell reloadInputViews];
+    
     
     ItemModel* item = self.itemsArray[indexPath.row];
-    NSURL* url = [NSURL URLWithString:item.urlString];
-    
+    [cell.imgView setImage:[UIImage imageNamed:@"noPhoto"]];
     cell.infoLabel.text = item.urlString;
     
-    if ([self.cache objectForKey:item.nameString]) {
-        cell.imgView.image = [self.cache objectForKey:item.nameString];
+
+    if ([self.cache objectForKey:item.urlString]) {
+        cell.imgView.image = [self.cache objectForKey:item.urlString];
     } else {
-    
+
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSURL* url = [NSURL URLWithString:item.urlString];
             NSData* data = [NSData dataWithContentsOfURL:url];
+            UIImage* image = [UIImage imageWithData:data];
+            item.image = image;
+            item.currentInfo = item.urlString;
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (data != nil) {
-                    UIImage* image = [UIImage imageWithData:data];
-                    [cell setInfo:item.urlString];
-                    cell.imgView.image = image;
-                    
-                    if (image != nil) {
-                        [self.cache setObject:image forKey:item.nameString];
-                        
-                        NSDictionary* dictionary = [NSDictionary dictionaryWithObject:image forKey:item.urlString];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:MainViewControllerImageWasLoadNotification
-                                                                            object:nil
-                                                                          userInfo:dictionary];
-                    }
+                if (image != nil) {
+                    cell.infoLabel.text = item.currentInfo;
+                    [cell.imgView setImage:item.image];
+                    [self.cache setObject:image forKey:item.urlString];
+                    NSDictionary* dictionary = [NSDictionary dictionaryWithObject:image forKey:item.urlString];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MainViewControllerImageWasLoadNotification
+                                                                        object:nil
+                                                                        userInfo:dictionary];
                 }
-                
+
             });
         });
     }
-        
+    
+    
     return cell;
 }
 
@@ -116,8 +116,6 @@ static NSString* cellIdentifier = @"Cell";
                                               [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
                                               [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
                                               ]];
-    
-    //self.tableView.rowHeight = 200;
 }
 
 #pragma mark - DidTapOnImage
@@ -126,6 +124,7 @@ static NSString* cellIdentifier = @"Cell";
     NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)imageView.superview];
     DetailsViewController* dVc = [[DetailsViewController alloc] init];
     dVc.image = imageView.image;
+    
     dVc.imageUrl = [self.itemsArray objectAtIndex:indexPath.row].urlString;
         
     [self.navigationController pushViewController:dVc animated:YES];

@@ -39,19 +39,18 @@
 #pragma mark - Methods
 
 - (void) setUp {
-    self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 100)];
-    [self.imgView setImage:[UIImage imageNamed:@"arrow_down"]];
+    self.imgView = [[UIImageView alloc] init];
     [self addSubview:self.imgView];
     
     self.imgView.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[
-                                              [self.imgView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
-                                              [self.imgView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:30],
+                                              [self.imgView.centerYAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.centerYAnchor],
+                                              [self.imgView.leadingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leadingAnchor constant:30],
                                               [self.imgView.widthAnchor constraintEqualToConstant:150],
                                               [self.imgView.heightAnchor constraintEqualToConstant:100]
                                               ]];
     
-    self.infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    self.infoLabel = [[UILabel alloc] init];
     self.infoLabel.textAlignment = NSTextAlignmentCenter;
     self.infoLabel.numberOfLines = 0;
     
@@ -59,10 +58,10 @@
     
     self.infoLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[
-                                              [self.infoLabel.topAnchor constraintEqualToAnchor:self.topAnchor constant:50],
-                                              [self.infoLabel.leadingAnchor constraintEqualToAnchor:self.imgView.trailingAnchor constant:20],
-                                              [self.infoLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-20],
-                                              [self.infoLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-50]
+                                              [self.infoLabel.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor constant:50],
+                                              [self.infoLabel.leadingAnchor constraintEqualToAnchor:self.imgView.safeAreaLayoutGuide.trailingAnchor constant:20],
+                                              [self.infoLabel.trailingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.trailingAnchor constant:-20],
+                                              [self.infoLabel.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor constant:-50]
                                               ]];
     
 }
