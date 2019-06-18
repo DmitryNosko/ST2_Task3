@@ -9,13 +9,14 @@
 #import "MainViewController.h"
 #import "CustomCell.h"
 #import "DetailsViewController.h"
-#import "ItemModel.h"
+#import "ImageItem.h"
+#import "ImageDataSource.h"
 
 @interface MainViewController () <UITableViewDataSource, UITableViewDelegate, CustomCellListener>
 
 @property (strong, nonatomic) UITableView* tableView;
 @property (strong, nonatomic) UIImage* image;
-@property (strong, nonatomic) NSArray<ItemModel*>* itemsArray;
+@property (strong, nonatomic) NSArray<ImageItem*>* imageItems;
 @property (strong, nonatomic) NSCache* cache;
 
 
@@ -37,11 +38,10 @@ static NSString* cellIdentifier = @"Cell";
     self.title = @"Images library";
     [self.tableView registerClass:[CustomCell class] forCellReuseIdentifier:cellIdentifier];
     
-    ItemModel* model = [[ItemModel alloc] initWith:@""];
-    self.itemsArray = [model makeItems];
+    ImageDataSource* dataSource = [[ImageDataSource alloc] init];
+    self.imageItems = [dataSource getAllImageItems];
     
-    NSCache* cache = [[NSCache alloc] init];
-    self.cache = cache;
+    self.cache = [[NSCache alloc] init];
 }
 
 #pragma mark - UITableViewDataSource
@@ -51,7 +51,7 @@ static NSString* cellIdentifier = @"Cell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.itemsArray count];
+    return [self.imageItems count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -62,39 +62,50 @@ static NSString* cellIdentifier = @"Cell";
         cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    
-    ItemModel* item = self.itemsArray[indexPath.row];
-    [cell.imgView setImage:[UIImage imageNamed:@"noPhoto"]];
-    cell.infoLabel.text = item.urlString;
-    
-
-    if ([self.cache objectForKey:item.urlString]) {
-        cell.imgView.image = [self.cache objectForKey:item.urlString];
-    } else {
-
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSURL* url = [NSURL URLWithString:item.urlString];
-            NSData* data = [NSData dataWithContentsOfURL:url];
-            UIImage* image = [UIImage imageWithData:data];
-            item.image = image;
-            item.currentInfo = item.urlString;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (image != nil) {
-                    cell.infoLabel.text = item.currentInfo;
-                    [cell.imgView setImage:item.image];
-                    [self.cache setObject:image forKey:item.urlString];
-                    NSDictionary* dictionary = [NSDictionary dictionaryWithObject:image forKey:item.urlString];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:MainViewControllerImageWasLoadNotification
-                                                                        object:nil
-                                                                        userInfo:dictionary];
-                }
-
-            });
-        });
-    }
+    [self setCellContent:cell indexPath:indexPath];
     
     
     return cell;
+}
+
+#pragma mark - ContentSetUp
+
+- (void) setCellContent:(CustomCell*) cell indexPath:(NSIndexPath*) indexPath {
+    ImageItem* imageItem = self.imageItems[indexPath.row];
+    
+    cell.infoLabel.text = imageItem.imageUrl.absoluteString;
+    UIImage* cachedImage = [self.cache objectForKey:imageItem.imageUrl.absoluteString];
+    
+    if (cachedImage) {
+        cell.imgView.image = cachedImage;
+    } else {
+        [cell.imgView setImage:[UIImage imageNamed:@"noPhoto"]];
+        [self downloadImage:cell item:imageItem];
+    }
+}
+
+- (void) downloadImage:(CustomCell*) cell item:(ImageItem*) imageItem {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSData* data = [NSData dataWithContentsOfURL:imageItem.imageUrl];
+        imageItem.image = [UIImage imageWithData:data];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (imageItem.image) {
+                
+                cell.infoLabel.text = imageItem.imageUrl.absoluteString;
+                cell.imgView.image = imageItem.image;
+                
+                [self.cache setObject:imageItem.image forKey:imageItem.imageUrl.absoluteString];
+                
+                NSDictionary* dictionary = [NSDictionary dictionaryWithObject:imageItem.image forKey:imageItem.imageUrl.absoluteString];
+                [[NSNotificationCenter defaultCenter] postNotificationName:MainViewControllerImageWasLoadNotification
+                                                                    object:nil
+                                                                    userInfo:dictionary];
+            }
+            
+        });
+    });
 }
 
 #pragma mark - TableViewSetUp
@@ -124,9 +135,8 @@ static NSString* cellIdentifier = @"Cell";
     NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)imageView.superview];
     DetailsViewController* dVc = [[DetailsViewController alloc] init];
     dVc.image = imageView.image;
+    dVc.imageUrl = [self.imageItems objectAtIndex:indexPath.row].imageUrl.absoluteString;
     
-    dVc.imageUrl = [self.itemsArray objectAtIndex:indexPath.row].urlString;
-        
     [self.navigationController pushViewController:dVc animated:YES];
 }
 

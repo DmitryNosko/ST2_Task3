@@ -1,15 +1,15 @@
 //
-//  ItemModel.m
+//  ImageDataSource.m
 //  ST2Task3
 //
-//  Created by Dima on 6/15/19.
+//  Created by Dima on 6/18/19.
 //  Copyright © 2019 Dima. All rights reserved.
 //
 
-#import "ItemModel.h"
+#import "ImageDataSource.h"
 
 static NSString* imageStr1 = @"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Yandex.svg/1200px-Yandex.svg.png";
-static NSString* imageStr2 = @"https://www.iguides.ru/upload/medialibrary/1f1/1f16df65301c8f2124a2a6395463dcba.jpg";
+static NSString* imageStr2 = @"https://wallpaperplay.com/walls/full/1/3/d/15255.jpg";
 static NSString* imageStr3 = @"https://cs6.pikabu.ru/post_img/big/2017/06/06/11/1496774792184278033.png";
 static NSString* imageStr4 = @"https://bipbap.ru/wp-content/uploads/2017/10/0_8eb56_842bba74_XL-640x400.jpg";
 static NSString* imageStr5 = @"http://komotoz.ru/kartinki/images/kartinki_pro_lubov/kartinki_pro_lubov_17.jpg";
@@ -67,81 +67,110 @@ static NSString* imageStr56 = @"https://sites.google.com/site/prirodanasevseegoo
 static NSString* imageStr57 = @"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Nota_disambigua.svg/240px-Nota_disambigua.svg.png";
 static NSString* imageStr58 = @"https://kipmu.ru/wp-content/uploads/sam_op_jiv_ros.jpg";
 static NSString* imageStr59 = @"https://images11.popmeh.ru/upload/img_cache/a8d/a8df7adebed271b6bfc4468b202bb372_ce_900x600x0x0_cropped_800x427.jpg";
-static NSString* imageStr60 = @"https://66.media.tumblr.com/2b02ff07f95861e82cfc8b43d84b58f4/tumblr_o6pf3l5Bx91v1q78ro3_400.jpg";
+static NSString* imageStr60 = @"http://hdqwalls.com/wallpapers/3d-cube-background-4k-yo.jpg";
 
-@implementation ItemModel
+@implementation ImageDataSource
 
-- (instancetype)initWith:(NSString*) image
-{
-    self = [super init];
-    if (self) {
-        _urlString = image;
-    }
-    return self;
-}
-
-- (NSArray<ItemModel*>*) makeItems {
-    return (NSArray*)@[[[ItemModel alloc] initWith:imageStr1],
-                       [[ItemModel alloc] initWith:imageStr2],
-                       [[ItemModel alloc] initWith:imageStr3],
-                       [[ItemModel alloc] initWith:imageStr4],
-                       [[ItemModel alloc] initWith:imageStr5],
-                       [[ItemModel alloc] initWith:imageStr6],
-                       [[ItemModel alloc] initWith:imageStr7],
-                       [[ItemModel alloc] initWith:imageStr8],
-                       [[ItemModel alloc] initWith:imageStr9],
-                       [[ItemModel alloc] initWith:imageStr10],
-                       [[ItemModel alloc] initWith:imageStr11],
-                       [[ItemModel alloc] initWith:imageStr12],
-                       [[ItemModel alloc] initWith:imageStr13],
-                       [[ItemModel alloc] initWith:imageStr14],
-                       [[ItemModel alloc] initWith:imageStr15],
-                       [[ItemModel alloc] initWith:imageStr16],
-                       [[ItemModel alloc] initWith:imageStr17],
-                       [[ItemModel alloc] initWith:imageStr18],
-                       [[ItemModel alloc] initWith:imageStr19],
-                       [[ItemModel alloc] initWith:imageStr20],
-                       [[ItemModel alloc] initWith:imageStr21],
-                       [[ItemModel alloc] initWith:imageStr22],
-                       [[ItemModel alloc] initWith:imageStr23],
-                       [[ItemModel alloc] initWith:imageStr24],
-                       [[ItemModel alloc] initWith:imageStr25],
-                       [[ItemModel alloc] initWith:imageStr26],
-                       [[ItemModel alloc] initWith:imageStr27],
-                       [[ItemModel alloc] initWith:imageStr28],
-                       [[ItemModel alloc] initWith:imageStr29],
-                       [[ItemModel alloc] initWith:imageStr30],
-                       [[ItemModel alloc] initWith:imageStr31],
-                       [[ItemModel alloc] initWith:imageStr32],
-                       [[ItemModel alloc] initWith:imageStr33],
-                       [[ItemModel alloc] initWith:imageStr34],
-                       [[ItemModel alloc] initWith:imageStr35],
-                       [[ItemModel alloc] initWith:imageStr36],
-                       [[ItemModel alloc] initWith:imageStr37],
-                       [[ItemModel alloc] initWith:imageStr38],
-                       [[ItemModel alloc] initWith:imageStr39],
-                       [[ItemModel alloc] initWith:imageStr40],
-                       [[ItemModel alloc] initWith:imageStr41],
-                       [[ItemModel alloc] initWith:imageStr42],
-                       [[ItemModel alloc] initWith:imageStr43],
-                       [[ItemModel alloc] initWith:imageStr44],
-                       [[ItemModel alloc] initWith:imageStr45],
-                       [[ItemModel alloc] initWith:imageStr46],
-                       [[ItemModel alloc] initWith:imageStr47],
-                       [[ItemModel alloc] initWith:imageStr48],
-                       [[ItemModel alloc] initWith:imageStr49],
-                       [[ItemModel alloc] initWith:imageStr50],
-                       [[ItemModel alloc] initWith:imageStr51],
-                       [[ItemModel alloc] initWith:imageStr52],
-                       [[ItemModel alloc] initWith:imageStr53],
-                       [[ItemModel alloc] initWith:imageStr54],
-                       [[ItemModel alloc] initWith:imageStr55],
-                       [[ItemModel alloc] initWith:imageStr56],
-                       [[ItemModel alloc] initWith:imageStr57],
-                       [[ItemModel alloc] initWith:imageStr58],
-                       [[ItemModel alloc] initWith:imageStr59],
-                       [[ItemModel alloc] initWith:imageStr60]
+- (NSArray<ImageItem*>*) getAllImageItems {
+    return (NSArray*)@[[[ImageItem alloc] initWith:imageStr1],
+                       [[ImageItem alloc] initWith:imageStr2],
+                       [[ImageItem alloc] initWith:imageStr3],
+                       [[ImageItem alloc] initWith:imageStr4],
+                       [[ImageItem alloc] initWith:imageStr5],
+                       [[ImageItem alloc] initWith:imageStr6],
+                       [[ImageItem alloc] initWith:imageStr7],
+                       [[ImageItem alloc] initWith:imageStr8],
+                       [[ImageItem alloc] initWith:imageStr9],
+                       [[ImageItem alloc] initWith:imageStr10],
+                       [[ImageItem alloc] initWith:imageStr11],
+                       [[ImageItem alloc] initWith:imageStr12],
+                       [[ImageItem alloc] initWith:imageStr13],
+                       [[ImageItem alloc] initWith:imageStr14],
+                       [[ImageItem alloc] initWith:imageStr15],
+                       [[ImageItem alloc] initWith:imageStr16],
+                       [[ImageItem alloc] initWith:imageStr17],
+                       [[ImageItem alloc] initWith:imageStr18],
+                       [[ImageItem alloc] initWith:imageStr19],
+                       [[ImageItem alloc] initWith:imageStr20],
+                       [[ImageItem alloc] initWith:imageStr21],
+                       [[ImageItem alloc] initWith:imageStr22],
+                       [[ImageItem alloc] initWith:imageStr23],
+                       [[ImageItem alloc] initWith:imageStr24],
+                       [[ImageItem alloc] initWith:imageStr25],
+                       [[ImageItem alloc] initWith:imageStr26],
+                       [[ImageItem alloc] initWith:imageStr27],
+                       [[ImageItem alloc] initWith:imageStr28],
+                       [[ImageItem alloc] initWith:imageStr29],
+                       [[ImageItem alloc] initWith:imageStr30],
+                       [[ImageItem alloc] initWith:imageStr31],
+                       [[ImageItem alloc] initWith:imageStr32],
+                       [[ImageItem alloc] initWith:imageStr33],
+                       [[ImageItem alloc] initWith:imageStr34],
+                       [[ImageItem alloc] initWith:imageStr35],
+                       [[ImageItem alloc] initWith:imageStr36],
+                       [[ImageItem alloc] initWith:imageStr37],
+                       [[ImageItem alloc] initWith:imageStr38],
+                       [[ImageItem alloc] initWith:imageStr39],
+                       [[ImageItem alloc] initWith:imageStr40],
+                       [[ImageItem alloc] initWith:imageStr41],
+                       [[ImageItem alloc] initWith:imageStr42],
+                       [[ImageItem alloc] initWith:imageStr43],
+                       [[ImageItem alloc] initWith:imageStr44],
+                       [[ImageItem alloc] initWith:imageStr45],
+                       [[ImageItem alloc] initWith:imageStr46],
+                       [[ImageItem alloc] initWith:imageStr47],
+                       [[ImageItem alloc] initWith:imageStr48],
+                       [[ImageItem alloc] initWith:imageStr49],
+                       [[ImageItem alloc] initWith:imageStr50],
+                       [[ImageItem alloc] initWith:imageStr51],
+                       [[ImageItem alloc] initWith:imageStr52],
+                       [[ImageItem alloc] initWith:imageStr53],
+                       [[ImageItem alloc] initWith:imageStr54],
+                       [[ImageItem alloc] initWith:imageStr55],
+                       [[ImageItem alloc] initWith:imageStr56],
+                       [[ImageItem alloc] initWith:imageStr57],
+                       [[ImageItem alloc] initWith:imageStr58],
+                       [[ImageItem alloc] initWith:imageStr59],
+                       [[ImageItem alloc] initWith:imageStr60]
                        ];
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

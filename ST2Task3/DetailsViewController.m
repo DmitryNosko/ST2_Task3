@@ -22,12 +22,11 @@
                                              selector:@selector(imageWasLoadNotification:)
                                                  name:MainViewControllerImageWasLoadNotification
                                                object:nil];
-    [self setUp];
+    [self setUpViewController];
     [self setImageView:self.image];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -42,8 +41,8 @@
 - (void) imageWasLoadNotification:(NSNotification*) notification {
     
     if([[notification name] isEqualToString:MainViewControllerImageWasLoadNotification]) {
-        if ([notification.userInfo objectForKey:self.imageUrl] != nil) {
-            UIImage* image = [notification.userInfo objectForKey:self.imageUrl];
+        UIImage* image = [notification.userInfo objectForKey:self.imageUrl];
+        if (image) {
             [self setImageView:image];
             [self.imgView reloadInputViews];
             [self.view reloadInputViews];
@@ -53,7 +52,7 @@
 
 #pragma mark - Methods
 
-- (void) setUp {
+- (void) setUpViewController {
     self.title = @"Image";
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -65,16 +64,13 @@
 }
 
 - (void) setImageView:(UIImage*) image {
-    if (image.size.height > (CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.navigationController.navigationBar.bounds)) || image.size.width > CGRectGetWidth(self.view.bounds)) {
-        self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, [self getTobBarHeight], (CGRectGetWidth(self.view.bounds) - 20.f), (CGRectGetHeight(self.view.bounds)) - [self getTobBarHeight] - 10.f)];
-        [self.imgView setImage:image];
-        [self.view reloadInputViews];
-    } else {
-        self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, [self getTobBarHeight], image.size.width, image.size.height)];
-        [self.imgView setImage:image];
-        [self.view reloadInputViews];
-    }
     
+    self.imgView = [self isGreaterThanViewFrame:image] ?
+        [[UIImageView alloc] initWithFrame:CGRectMake(10, [self getTobBarHeight], (CGRectGetWidth(self.view.bounds) - 20.f), (CGRectGetHeight(self.view.bounds)) - [self getTobBarHeight] - 10.f)] :
+        [[UIImageView alloc] initWithFrame:CGRectMake(10, [self getTobBarHeight], image.size.width, image.size.height)];
+    
+    [self.imgView setImage:image];
+    [self.view reloadInputViews];
     [self.view addSubview:self.imgView];
 }
 
@@ -82,6 +78,10 @@
     return ([UIApplication sharedApplication].statusBarFrame.size.height + (self.navigationController.navigationBar.frame.size.height ?: 0.0) + 10.f);
 }
 
+- (BOOL) isGreaterThanViewFrame:(UIImage*) image {
+    return image.size.height > (CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.navigationController.navigationBar.bounds)) ||
+           image.size.width > CGRectGetWidth(self.view.bounds);
+}
 
 
 @end

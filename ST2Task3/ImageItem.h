@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ItemModel : NSObject
+@interface ImageItem : NSObject
 
-@property (strong, nonatomic) NSString* urlString;
-@property (strong, nonatomic) NSString* currentInfo;
+@property (strong, nonatomic) NSURL* imageUrl;
 @property (strong, nonatomic) UIImage* image;
 
-- (NSArray<ItemModel*>*) makeItems;
-- (instancetype)initWith:(NSString*) image;
+- (instancetype)initWith:(NSString*) imageAbsoluteUrl;
+
 @end

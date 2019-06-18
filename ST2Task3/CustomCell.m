@@ -51,7 +51,7 @@
                                               ]];
     
     self.infoLabel = [[UILabel alloc] init];
-    self.infoLabel.textAlignment = NSTextAlignmentCenter;
+    self.infoLabel.textAlignment = NSTextAlignmentLeft;
     self.infoLabel.numberOfLines = 0;
     
     [self addSubview:self.infoLabel];
